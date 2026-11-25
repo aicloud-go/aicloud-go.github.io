@@ -1,0 +1,67 @@
+---
+layout: default
+---
+
+<div id="chapter-bookmark-data" data-title="{{ page.title | escape }}" data-url="{{ page.url | relative_url }}" hidden></div>
+
+<div class="reader-toolbar" aria-label="閱讀設定工具列">
+  <div class="toolbar-group">
+    <span class="toolbar-label">字級</span>
+    <button class="pill-btn" type="button" data-set-font="sm">小</button>
+    <button class="pill-btn" type="button" data-set-font="md">中</button>
+    <button class="pill-btn" type="button" data-set-font="lg">大</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="toolbar-label">背景</span>
+    <button class="pill-btn" type="button" data-set-theme="light">白紙</button>
+    <button class="pill-btn" type="button" data-set-theme="sepia">護眼</button>
+    <button class="pill-btn" type="button" data-set-theme="dark">夜間</button>
+  </div>
+</div>
+
+<article>
+  <header class="article-header">
+    {% if page.volume %}
+    <div class="article-vol">{{ page.volume }}</div>
+    {% endif %}
+    <h1 class="article-title">{{ page.title }}</h1>
+    <div class="article-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">更新於 {{ page.date | date: "%Y.%m.%d" }}</time>
+      {% assign char_count = content | strip_html | strip_newlines | size %}
+      {% assign read_mins = char_count | divided_by: 450 | plus: 1 %}
+      <span>· 約 {{ char_count }} 字（預計閱讀 {{ read_mins }} 分鐘）</span>
+    </div>
+  </header>
+
+  <div class="prose novel-body">
+    {{ content }}
+  </div>
+
+  <nav class="chapter-pager" aria-label="章節翻頁導覽">
+    {% if page.previous.url %}
+    <a class="pager-btn prev" href="{{ page.previous.url | relative_url }}">
+      <span class="pager-label">← 上一章</span>
+      <span class="pager-title">{{ page.previous.title }}</span>
+    </a>
+    {% else %}
+    <span class="pager-btn prev disabled">
+      <span class="pager-label">← 上一章</span>
+      <span class="pager-title">已是第一章</span>
+    </span>
+    {% endif %}
+
+    <a class="pager-btn toc-mid" href="{{ '/' | relative_url }}">目錄</a>
+
+    {% if page.next.url %}
+    <a class="pager-btn next" href="{{ page.next.url | relative_url }}">
+      <span class="pager-label">下一章 →</span>
+      <span class="pager-title">{{ page.next.title }}</span>
+    </a>
+    {% else %}
+    <span class="pager-btn next disabled">
+      <span class="pager-label">下一章 →</span>
+      <span class="pager-title">待續（最新章）</span>
+    </span>
+    {% endif %}
+  </nav>
+</article>

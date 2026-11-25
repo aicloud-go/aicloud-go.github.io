@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'zh-Hant-TW' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% seo %}
+  {% feed_meta %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  {% if page.layout == "post" %}
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+  {% endif %}
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="site-brand" href="{{ '/' | relative_url }}">《{{ site.title }}》</a>
+      <nav class="site-nav" aria-label="主導覽列">
+        <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">目錄</a>
+        <a class="nav-link{% if page.url == '/world/' %} active{% endif %}" href="{{ '/world/' | relative_url }}">世界觀</a>
+        <a class="nav-link{% if page.url == '/about/' %} active{% endif %}" href="{{ '/about/' | relative_url }}">關於</a>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="切換閱讀主題">☀ 淺色</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="container">
+      {{ content }}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© {{ 'now' | date: '%Y' }} {{ site.author.name | default: site.title }} · 《{{ site.title }}》</span>
+      <span>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS 追更</a> ·
+        GitHub Pages
+      </span>
+    </div>
+  </footer>
+
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

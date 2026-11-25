@@ -1,0 +1,74 @@
+---
+layout: default
+---
+
+{% assign ordered_chapters = site.posts | reverse %}
+{% assign first_chapter = ordered_chapters.first %}
+{% assign latest_chapter = site.posts.first %}
+
+<section class="book-hero">
+  <div class="book-badges">
+    <span class="badge">連載中</span>
+    <span class="badge badge-outline">科幻</span>
+    <span class="badge badge-outline">危機</span>
+    <span class="badge badge-outline">懸疑</span>
+  </div>
+  <h1 class="book-title">{{ site.title }}</h1>
+  <p class="book-author">作者：{{ site.author.name }} · 目前共 {{ site.posts.size }} 章</p>
+  <p class="book-synopsis">{{ site.description }}</p>
+  <div class="book-actions">
+    {% if first_chapter %}
+    <a class="btn btn-primary" href="{{ first_chapter.url | relative_url }}">開始閱讀第一章</a>
+    {% endif %}
+    {% if latest_chapter %}
+    <a class="btn btn-secondary" href="{{ latest_chapter.url | relative_url }}">最新：{{ latest_chapter.title }}</a>
+    {% endif %}
+  </div>
+</section>
+
+<div class="resume-bar" id="resume-bar">
+  <span>🔖 上次讀到：<a class="resume-link" id="resume-link" href="#"></a></span>
+</div>
+
+<section aria-label="章節目錄">
+  <div class="toc-header">
+    <h2 class="toc-heading">
+      章節目錄
+      <span class="toc-count">共 {{ site.posts.size }} 章</span>
+    </h2>
+    <div class="toc-controls">
+      <button class="icon-btn" id="sort-toggle" type="button">↑ 從第一章排序</button>
+    </div>
+  </div>
+
+  <input
+    type="search"
+    id="chapter-search"
+    class="search-input"
+    placeholder="搜尋章節名稱或劇情關鍵字..."
+    aria-label="搜尋章節"
+  >
+
+  <ul class="chapter-list" id="chapter-list">
+    {% for chapter in ordered_chapters %}
+    <li
+      class="chapter-item"
+      data-title="{{ chapter.title | escape }}"
+      data-summary="{{ chapter.description | default: chapter.excerpt | strip_html | escape }}"
+    >
+      <a class="chapter-card" href="{{ chapter.url | relative_url }}">
+        <div class="chapter-main">
+          {% if chapter.volume %}
+          <div class="chapter-vol">{{ chapter.volume }}</div>
+          {% endif %}
+          <h3 class="chapter-title">{{ chapter.title }}</h3>
+          <p class="chapter-summary">{{ chapter.description | default: chapter.excerpt | strip_html | truncate: 90 }}</p>
+        </div>
+        <time class="chapter-date" datetime="{{ chapter.date | date_to_xmlschema }}">{{ chapter.date | date: "%Y.%m.%d" }}</time>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p class="empty-state" id="empty-state">找不到符合關鍵字的章節。</p>
+</section>
